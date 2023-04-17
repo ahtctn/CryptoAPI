@@ -18,6 +18,7 @@ class CoinCell: UITableViewCell {
         logo.contentMode = .scaleAspectFit
         logo.image = UIImage(systemName: "person.fill")
         logo.tintColor = .black
+        logo.backgroundColor = .systemBlue
         return logo
     }()
     
@@ -30,6 +31,20 @@ class CoinCell: UITableViewCell {
         return label
     }()
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(with coin: CoinModel) {
+        self.coin = coin
+        self.coinLabel.text = coin.name
+    }
+    
     private func setupUI() {
         self.addSubview(coinLogo)
         self.addSubview(coinLabel)
@@ -40,7 +55,7 @@ class CoinCell: UITableViewCell {
         NSLayoutConstraint.activate([
             coinLogo.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             coinLogo.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            coinLogo.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
+            coinLogo.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.75),
             coinLogo.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.75),
             
             coinLabel.leadingAnchor.constraint(equalTo: coinLogo.trailingAnchor, constant: 16),
