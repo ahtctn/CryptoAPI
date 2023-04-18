@@ -12,7 +12,23 @@ class HomeController: UIViewController{
 
     //MARK: PROPERTIES
     
-    private let coin: [CoinModel] = CoinModel.getMockArray()
+    private let coin: [CoinModel] = [
+        CoinModel(id: 1, name: "Bitcoin", maxSupply: 200, rank: 1, pricingData: PricingDataModel(CAD: CADModel(price: 50_000, marketCap: 1_000_000))),
+        CoinModel(id: 2, name: "Ethereum", maxSupply: nil, rank: 2, pricingData: PricingDataModel(CAD: CADModel(price: 2_000, marketCap: 500_000))),
+        CoinModel(id: 3, name: "Bitcoin", maxSupply: nil, rank: 3, pricingData: PricingDataModel(CAD: CADModel(price: 200, marketCap: 250_000))),
+        CoinModel(id: 1, name: "Bitcoin", maxSupply: 200, rank: 1, pricingData: PricingDataModel(CAD: CADModel(price: 50_000, marketCap: 1_000_000))),
+        CoinModel(id: 2, name: "Ethereum", maxSupply: nil, rank: 2, pricingData: PricingDataModel(CAD: CADModel(price: 2_000, marketCap: 500_000))),
+        CoinModel(id: 3, name: "Bitcoin", maxSupply: nil, rank: 3, pricingData: PricingDataModel(CAD: CADModel(price: 200, marketCap: 250_000))),
+        CoinModel(id: 1, name: "Bitcoin", maxSupply: 200, rank: 1, pricingData: PricingDataModel(CAD: CADModel(price: 50_000, marketCap: 1_000_000))),
+        CoinModel(id: 2, name: "Ethereum", maxSupply: nil, rank: 2, pricingData: PricingDataModel(CAD: CADModel(price: 2_000, marketCap: 500_000))),
+        CoinModel(id: 3, name: "Bitcoin", maxSupply: nil, rank: 3, pricingData: PricingDataModel(CAD: CADModel(price: 200, marketCap: 250_000))),
+        CoinModel(id: 1, name: "Bitcoin", maxSupply: 200, rank: 1, pricingData: PricingDataModel(CAD: CADModel(price: 50_000, marketCap: 1_000_000))),
+        CoinModel(id: 2, name: "Ethereum", maxSupply: nil, rank: 2, pricingData: PricingDataModel(CAD: CADModel(price: 2_000, marketCap: 500_000))),
+        CoinModel(id: 3, name: "Bitcoin", maxSupply: nil, rank: 3, pricingData: PricingDataModel(CAD: CADModel(price: 200, marketCap: 250_000))),
+        CoinModel(id: 1, name: "Bitcoin", maxSupply: 200, rank: 1, pricingData: PricingDataModel(CAD: CADModel(price: 50_000, marketCap: 1_000_000))),
+        CoinModel(id: 2, name: "Ethereum", maxSupply: nil, rank: 2, pricingData: PricingDataModel(CAD: CADModel(price: 2_000, marketCap: 500_000))),
+        CoinModel(id: 3, name: "Bitcoin", maxSupply: nil, rank: 3, pricingData: PricingDataModel(CAD: CADModel(price: 200, marketCap : 250_000)))
+    ] 
     
     private let tableView: UITableView = {
         let tv = UITableView()
@@ -85,8 +101,9 @@ extension HomeController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         let coinCell = self.coin[indexPath.row]
-        let vc = CryptoDetailViewController(coin: coinCell)
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vm = ViewCryptoControllerViewModel(coin: coinCell )
+        let vc = CryptoDetailViewController(vm)
+        self.navigationController?.pushViewController(vc, animated: true) 
         
     }
     

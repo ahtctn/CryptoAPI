@@ -10,7 +10,7 @@ import UIKit
 class CryptoDetailViewController: UIViewController {
 
     //MARK: PROPERTIES
-    private let coin: CoinModel
+    let viewModel: ViewCryptoControllerViewModel
     
     //MARK: OUTLETS
     
@@ -79,8 +79,8 @@ class CryptoDetailViewController: UIViewController {
     
     //MARK: LIFECYCLE
     
-    init(coin: CoinModel) {
-        self.coin = coin
+    init(_ viewModel: ViewCryptoControllerViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -96,13 +96,22 @@ class CryptoDetailViewController: UIViewController {
     //MARK: FUNCTIONS
     
     private func setupUI() {
+        
+       
+        
         self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = self.coin.name
+        self.navigationItem.title = self.viewModel.coin.name
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
-        self.rankLabel.text = self.coin.cmc_rank.description
-        self.priceLabel.text = self.coin.quote.CAD.price.description
-        self.marketCapLabel.text = self.coin.quote.CAD.market_cap.description
-        self.maxSupplyLabel.text = self.coin.max_supply?.description
+        self.rankLabel.text = self.viewModel.rankLabel
+        self.priceLabel.text = self.viewModel.priceLabel
+        self.marketCapLabel.text = self.viewModel.marketCapLabel
+        self.maxSupplyLabel.text = self.viewModel.maxSupplyLabel
+        
+        self.viewModel.onImageLoaded  = { [weak self] logoImage in
+            DispatchQueue.main.async {
+                self?.coinLogo.image = logoImage
+            }
+        }
         
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(contentView)
@@ -126,7 +135,6 @@ class CryptoDetailViewController: UIViewController {
             scrollView.heightAnchor.constraint(equalTo: view.layoutMarginsGuide.heightAnchor),
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
             
-            
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -137,6 +145,7 @@ class CryptoDetailViewController: UIViewController {
             coinLogo.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
             coinLogo.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             coinLogo.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            coinLogo.heightAnchor.constraint(equalToConstant: 200),
             
             vStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             vStack.topAnchor.constraint(equalTo: coinLogo.bottomAnchor, constant: 20),

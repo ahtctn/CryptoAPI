@@ -18,7 +18,6 @@ class CoinCell: UITableViewCell {
         logo.contentMode = .scaleAspectFit
         logo.image = UIImage(systemName: "person.fill")
         logo.tintColor = .black
-        logo.backgroundColor = .systemBlue
         return logo
     }()
     
@@ -43,6 +42,16 @@ class CoinCell: UITableViewCell {
     public func configure(with coin: CoinModel) {
         self.coin = coin
         self.coinLabel.text = coin.name
+        
+        DispatchQueue.global().async {
+            let imageData = try? Data(contentsOf: self.coin.logoURL!)
+            
+            if let imageData = imageData {
+                DispatchQueue.main.async { [weak self] in
+                    self?.coinLogo.image = UIImage(data: imageData)
+                }
+            }
+        }
     }
     
     private func setupUI() {
